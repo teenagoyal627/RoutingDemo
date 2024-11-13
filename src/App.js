@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import Home from './Page/Home'
 
-function App() {
+import {createBrowserRouter,createRoutesFromElements,Route,RouterProvider} from 'react-router-dom'
+import Product from './Page/Product'
+import Root from './Page/Root'
+import Error from './Page/Error'
+import ProductItems from './Page/ProductItems'
+
+
+// this is the first way...
+const router=createBrowserRouter([
+  {
+    path:'/',
+    element:<Root/>,
+    errorElement:<Error/>,
+    children:[
+      // these are another 2 ways to pass the home or root page on the browser
+      // {path:'',element:<Home/>},
+      // {path:'/',element:<Home/>},
+      // this is also a way to render the home pathe without passing the path
+      // this is called index-route
+      {index:true, element:<Home/>},
+      {path:'/product',element:<Product/>},
+      {path:'/product/:productId',element:<ProductItems/>}
+
+    ]
+  }
+ 
+])
+
+// this is the second way
+// const routeDefinination=createRoutesFromElements(
+//   <Route>
+//     <Route path='/' element={<Home/>}/>
+//     <Route path='/product' element={<Product/>}/>
+//   </Route>
+// )
+// const router=createBrowserRouter(routeDefinination)
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  <RouterProvider router={router}/>
+  )
 }
 
-export default App;
+export default App
